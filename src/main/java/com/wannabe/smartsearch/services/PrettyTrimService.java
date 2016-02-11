@@ -5,16 +5,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Created by wannabe on 11.02.16.
  */
-public class PrettyTrimService implements DataTrimService {
-
-	private static final DataTrimService INSTANCE = new PrettyTrimService();
-
-	private PrettyTrimService() {
-	}
-
-	public static DataTrimService getInstance() {
-		return INSTANCE;
-	}
+public enum PrettyTrimService implements DataTrimService {
+	INSTANCE;
 
 	@Override
 	public String removeFaceContent(@NotNull String data) {

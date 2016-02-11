@@ -14,7 +14,7 @@ public class PrettyTrimServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		prettyTrimService = PrettyTrimService.getInstance();
+		prettyTrimService = PrettyTrimService.INSTANCE;
 	}
 
 	@Test

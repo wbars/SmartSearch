@@ -36,7 +36,7 @@ public class SmartSearch extends AnAction {
 			new GetFilenamesFunction(project),
 			CompilerManager.getInstance(project)
 		));
-		trimServices.add(PrettyTrimService.getInstance());
+		trimServices.add(PrettyTrimService.INSTANCE);
 	}
 
 	@Override
