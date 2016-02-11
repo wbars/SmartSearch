@@ -1,7 +1,6 @@
 package com.wannabe.smartsearch.utils;
 
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.FileIndexFacade;
 import com.intellij.openapi.util.Computable;
@@ -18,8 +17,6 @@ import java.util.stream.Collectors;
  */
 public class GetClassNamesFunction implements Callable<Set<String>> {
 
-	public static final Logger logger = Logger.getInstance(GetClassNamesFunction.class);
-
 	private final Project project;
 
 	public GetClassNamesFunction(Project project) {
@@ -28,7 +25,6 @@ public class GetClassNamesFunction implements Callable<Set<String>> {
 
 	@Override
 	public Set<String> call() throws Exception {
-		logger.info("Start fetching class names");
 		return ApplicationManager.getApplication().runReadAction((Computable<Set<String>>) () ->
 			AllClassesSearch.search(new ProjectScopeImpl(project, FileIndexFacade.getInstance(project)), project)
 				.findAll()
