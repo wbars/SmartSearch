@@ -30,6 +30,7 @@ public class ClassNamesTrimServiceTest {
 		String data3 = "a com.dummy.Class3 bc";
 		String data4 = "a com.dummy.Class2.method() bc";
 		String data5 = "a com.dummy.Class2.method(args) bc";
+		String data6 = "a com.dummy.Class2.method(App.java:80) bc";
 		//when
 
 		//then
@@ -38,6 +39,7 @@ public class ClassNamesTrimServiceTest {
 		assertEquals(data3, classNamesTrimService.removeFaceContent(data3));
 		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data4));
 		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data5));
+		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data6));
 	}
 
 	public static class GetClassNamesDummy implements Callable<Set<String>> {
