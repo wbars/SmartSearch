@@ -7,6 +7,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PrettyTrimService implements DataTrimService {
 
+	private static final DataTrimService INSTANCE = new PrettyTrimService();
+
+	private PrettyTrimService() {
+	}
+
+	public static DataTrimService getInstance() {
+		return INSTANCE;
+	}
+
 	@Override
 	public String removeFaceContent(@NotNull String data) {
 		return data

@@ -12,8 +12,12 @@ import java.util.concurrent.Callable;
  */
 public class FileNamesTrimService extends FileCrawlerTrimService {
 
-	public FileNamesTrimService(Callable<Set<String>> fileNameGetter, @Nullable CompilerManager compilerManager) {
+	private FileNamesTrimService(Callable<Set<String>> fileNameGetter, @Nullable CompilerManager compilerManager) {
 		super(fileNameGetter, compilerManager);
+	}
+
+	public static DataTrimService newInstance(Callable<Set<String>> fileNameGetter, @Nullable CompilerManager compilerManager) {
+		return new FileNamesTrimService(fileNameGetter, compilerManager);
 	}
 
 	@Override

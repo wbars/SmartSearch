@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class FileNamesTrimServiceTest {
 
-	private FileNamesTrimService fileNamesTrimService;
+	private DataTrimService fileNamesTrimService;
 
 	@Before
 	public void setUp() throws Exception {
-		fileNamesTrimService = new FileNamesTrimService(new GetFileNamesDummy(), null);
+		fileNamesTrimService = FileNamesTrimService.newInstance(new GetFileNamesDummy(), null);
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class FileNamesTrimServiceTest {
 		public Set<String> call() throws Exception {
 			return new HashSet<>(
 				Arrays.asList(
-					"App.java", "Cls.java"
+					"App", "Cls"
 				)
 			);
 		}

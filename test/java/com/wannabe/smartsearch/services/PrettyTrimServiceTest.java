@@ -10,11 +10,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class PrettyTrimServiceTest {
 
-	private PrettyTrimService prettyTrimService;
+	private DataTrimService prettyTrimService;
 
 	@Before
 	public void setUp() throws Exception {
-		prettyTrimService = new PrettyTrimService();
+		prettyTrimService = PrettyTrimService.getInstance();
 	}
 
 	@Test

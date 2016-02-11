@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class ClassNamesTrimServiceTest {
 
-	private ClassNamesTrimService classNamesTrimService;
+	private DataTrimService classNamesTrimService;
 
 	@Before
 	public void setUp() throws Exception {
-		classNamesTrimService = new ClassNamesTrimService(new GetClassNamesDummy(), null);
+		classNamesTrimService = ClassNamesTrimService.newInstance(new GetClassNamesDummy(), null);
 	}
 
 	@Test

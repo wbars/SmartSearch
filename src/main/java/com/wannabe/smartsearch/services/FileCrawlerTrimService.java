@@ -23,7 +23,7 @@ public abstract class FileCrawlerTrimService implements DataTrimService {
 	/**
 	 * todo make compilerManager not null, now nullable because of tests
 	 */
-	public FileCrawlerTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
+	protected FileCrawlerTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
 		names = executor.submit(classNamesGetter);
 
 		if (compilerManager != null) {

@@ -12,8 +12,12 @@ import java.util.concurrent.Callable;
  */
 public class ClassNamesTrimService extends FileCrawlerTrimService {
 
-	public ClassNamesTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
+	private ClassNamesTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
 		super(classNamesGetter, compilerManager);
+	}
+
+	public static DataTrimService newInstance(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
+		return new ClassNamesTrimService(classNamesGetter, compilerManager);
 	}
 
 	public String removeFaceContent(@NotNull String data) {

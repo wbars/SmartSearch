@@ -28,15 +28,15 @@ public class SmartSearch extends AnAction {
 
 	public static void init(@NotNull Project project) {
 		trimServices = new LinkedList<>();
-		trimServices.add(new ClassNamesTrimService(
+		trimServices.add(ClassNamesTrimService.newInstance(
 			new GetClassNamesFunction(project),
 			CompilerManager.getInstance(project)
 		));
-		trimServices.add(new FileNamesTrimService(
+		trimServices.add(FileNamesTrimService.newInstance(
 			new GetFilenamesFunction(project),
 			CompilerManager.getInstance(project)
 		));
-		trimServices.add(new PrettyTrimService());
+		trimServices.add(PrettyTrimService.getInstance());
 	}
 
 	@Override
