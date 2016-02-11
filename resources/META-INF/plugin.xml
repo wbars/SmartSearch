@@ -1,0 +1,37 @@
+<idea-plugin version="2">
+	<id>com.wannabe.smartsearch</id>
+	<name>Smart Search</name>
+	<version>1.0</version>
+	<vendor email="smelov.kirill@gmail.com" url="">Smelov Kirill</vendor>
+
+	<description><![CDATA[
+      Allows to do quick web search log information without project-specific data, such as:
+      <ul>
+        <li>Project class names with methods</li>
+        <li>Project file names</li>
+      </ul>
+    ]]></description>
+
+	<change-notes><![CDATA[
+      None
+    ]]>
+	</change-notes>
+
+	<idea-version since-build="141.0"/>
+
+
+	<actions>
+		<!-- Add your actions here -->
+		<action id="SmartSearch" class="com.wannabe.smartsearch.actions.SmartSearch" text="Smart search"
+						description="Search selected text without project info">
+			<add-to-group group-id="ConsoleEditorPopupMenu" anchor="before" relative-to-action="$SearchWeb"/>
+			<keyboard-shortcut keymap="$default" first-keystroke="shift meta I"/>
+		</action>
+	</actions>
+
+	<project-components>
+		<component>
+			<implementation-class>com.wannabe.smartsearch.SmartSearchComponent</implementation-class>
+		</component>
+	</project-components>
+</idea-plugin>
