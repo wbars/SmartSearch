@@ -1,11 +1,9 @@
 package com.wannabe.smartsearch.actions;
 
 import com.intellij.ide.BrowserUtil;
-import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.project.Project;
 import com.wannabe.smartsearch.model.SelectedData;
@@ -15,6 +13,7 @@ import com.wannabe.smartsearch.services.FileNamesTrimService;
 import com.wannabe.smartsearch.services.PrettyTrimService;
 import com.wannabe.smartsearch.utils.GetClassNamesFunction;
 import com.wannabe.smartsearch.utils.GetFilenamesFunction;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URLEncoder;
 import java.util.Collection;
@@ -27,10 +26,8 @@ public class SmartSearch extends AnAction {
 
 	private static Collection<DataTrimService> trimServices;
 
-	static {
+	public static void init(@NotNull Project project) {
 		trimServices = new LinkedList<>();
-
-		Project project = (Project) DataManager.getInstance().getDataContext().getData(DataKeys.PROJECT.getName());
 		trimServices.add(new ClassNamesTrimService(
 			new GetClassNamesFunction(project),
 			CompilerManager.getInstance(project)
