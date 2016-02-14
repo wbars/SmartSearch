@@ -34,4 +34,9 @@
 			<implementation-class>com.wannabe.smartsearch.SmartSearchComponent</implementation-class>
 		</component>
 	</project-components>
+	<extensions defaultExtensionNs="com.intellij">
+		<!--<applicationConfigurable provider="com.wannabe.smartsearch.settings.SmartSearchManagerConfigurableConfigurable"/>-->
+		<projectConfigurable groupId="tools" provider="com.wannabe.smartsearch.settings.SmartSearchConfigurableProvider"
+												 dynamic="true"/>
+	</extensions>
 </idea-plugin>

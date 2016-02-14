@@ -11,6 +11,7 @@ import com.wannabe.smartsearch.services.ClassNamesTrimService;
 import com.wannabe.smartsearch.services.DataTrimService;
 import com.wannabe.smartsearch.services.FileNamesTrimService;
 import com.wannabe.smartsearch.services.PrettyTrimService;
+import com.wannabe.smartsearch.settings.SmartSearchManagerConfigurable;
 import com.wannabe.smartsearch.utils.GetClassNamesFunction;
 import com.wannabe.smartsearch.utils.GetFilenamesFunction;
 import org.jetbrains.annotations.NotNull;
@@ -55,6 +56,6 @@ public class SmartSearch extends AnAction {
 		}
 		SelectedData selectedDataWrapper = new SelectedData(selectedData);
 		trimServices.stream().forEach(selectedDataWrapper::trim);
-		BrowserUtil.browse("http://www.google.com/search?q=" + URLEncoder.encode(selectedDataWrapper.getData()));
+		BrowserUtil.browse(SmartSearchManagerConfigurable.getCurrentPrefix() + URLEncoder.encode(selectedDataWrapper.getData()));
 	}
 }
