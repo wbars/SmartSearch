@@ -43,7 +43,7 @@ public abstract class FileCrawlerTrimService implements DataTrimService {
 		}
 	}
 
-	protected String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
+	protected final String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
 		final String[] wrapper = {data};
 		try {
 			names
