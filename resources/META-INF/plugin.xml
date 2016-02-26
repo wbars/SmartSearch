@@ -19,6 +19,8 @@
 
 	<idea-version since-build="141.0"/>
 
+	<!--only for idea java classes for now-->
+	<depends>com.intellij.modules.java</depends>
 
 	<actions>
 		<!-- Add your actions here -->
