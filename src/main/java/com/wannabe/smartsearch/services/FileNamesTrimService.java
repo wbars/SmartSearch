@@ -22,6 +22,6 @@ public class FileNamesTrimService extends FileCrawlerTrimService {
 
 	@Override
 	public String removeFaceContent(@NotNull String data) {
-		return removeFaceContent(data, s -> s + "\\.java(:\\d+)?");
+		return removeFaceContent(data, s -> s + "\\.\\w+(:\\d+)?");
 	}
 }

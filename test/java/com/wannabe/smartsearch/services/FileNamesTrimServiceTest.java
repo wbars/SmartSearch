@@ -28,12 +28,14 @@ public class FileNamesTrimServiceTest {
 		String data1 = "a App.java bc";
 		String data2 = "a Cls.java:12 bc";
 		String data3 = "a com.dummy.Class3 bc";
+		String data4 = "a Cls.php:12 bc";
 		//when
 
 		//then
 		assertEquals("a  bc", fileNamesTrimService.removeFaceContent(data1));
 		assertEquals("a  bc", fileNamesTrimService.removeFaceContent(data2));
 		assertEquals(data3, fileNamesTrimService.removeFaceContent(data3));
+		assertEquals("a  bc", fileNamesTrimService.removeFaceContent(data4));
 	}
 
 	public static class GetFileNamesDummy implements Callable<Set<String>> {
