@@ -31,9 +31,12 @@ public class SmartSearchManagerConfigurable implements Configurable {
 	}
 
 	private JComboBox searchHost;
+	@SuppressWarnings({"unused", "unread"})
 	private JPanel searchHostPanel;
 	private JPanel root;
+	@SuppressWarnings({"unused", "unread"})
 	private JLabel searchHostLabel;
+	@SuppressWarnings({"unused", "unread"})
 	private JPanel panel;
 
 	public static String getCurrentPrefix() {
