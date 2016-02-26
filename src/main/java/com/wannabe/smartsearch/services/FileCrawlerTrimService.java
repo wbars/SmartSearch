@@ -14,6 +14,10 @@ import java.util.function.Function;
 /**
  * Created by wannabe on 11.02.16.
  */
+
+/**
+ * Class, that handle some file crawling in project structure. Provide inner method for trimming data using all Java class names in the project.
+ */
 public abstract class FileCrawlerTrimService implements DataTrimService {
 
 	public static final Logger logger = Logger.getInstance(FileCrawlerTrimService.class);
@@ -21,6 +25,10 @@ public abstract class FileCrawlerTrimService implements DataTrimService {
 	protected Future<Set<String>> names;
 
 	/**
+	 * Accept callable, that will search for some names in project (filenames, or classnames for example)
+	 * <br />
+	 * That callable will be called sometimes in separate thread.
+	 *
 	 * todo make compilerManager not null, now nullable because of tests
 	 */
 	protected FileCrawlerTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
@@ -43,6 +51,15 @@ public abstract class FileCrawlerTrimService implements DataTrimService {
 		}
 	}
 
+	/**
+	 * This method takes function regexpGetter, that will be applied to every full-qualified classname in the project and will return regexp for every entry.
+	 * <br />
+	 * Result regexp`s will be removed from input string
+	 *
+	 * @param data         Input to be trimmed
+	 * @param regexpGetter function, that will be applied to every classname
+	 * @return trimmed data
+	 */
 	protected final String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
 		final String[] wrapper = {data};
 		try {

@@ -4,6 +4,8 @@ import com.wannabe.smartsearch.services.DataTrimService;
 
 /**
  * Created by wannabe on 10.02.16.
+ *
+ * Use wrapper of 1 string for fancy Java8 stream api usage
  */
 public class SelectedData {
 
