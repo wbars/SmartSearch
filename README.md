@@ -6,7 +6,7 @@ This simple plugin can search information from your messages without non-relevan
 
 ## Install
 
-Install this plugin like any other via IDEA plugin repository, or copy plugin jar to [plugin folder](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs) of your IDE.
+Install this plugin like any other via IDEA plugin repository, or copy plugin [jar](https://github.com/wannabearockstar/SmartSearch/releases) to [plugin folder](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs) of your IDE.
 
 ## Usage
 
