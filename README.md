@@ -12,6 +12,12 @@ Install this plugin like any other via IDEA plugin repository, or copy plugin [j
 
 Select text in run/message/log/etc... window, right click, select _smart search_.
 
+**Sample search**
+![Sample search](https://media.giphy.com/media/3o7abwvZioy4y8hTLa/giphy.gif) 
+
+**Smart search**
+![Smart search](https://media.giphy.com/media/3o7aboZT3x22MOS3Ju/giphy.gif)
+
 ## JetBrains IDEs support
 
 In current moment this plugin supports only IntelIJ IDEA, i will add compatibility with other JetBrains IDEs, if people will want =)
