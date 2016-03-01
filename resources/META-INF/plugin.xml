@@ -1,7 +1,7 @@
-<idea-plugin version="3">
+<idea-plugin version="2">
 	<id>com.wannabe.smartsearch</id>
 	<name>Smart Search</name>
-	<version>1.0</version>
+	<version>1.1</version>
 	<vendor email="smelov.kirill@gmail.com" url="">Smelov Kirill</vendor>
 
 	<description><![CDATA[
