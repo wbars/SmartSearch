@@ -29,6 +29,10 @@
 			<add-to-group group-id="ConsoleEditorPopupMenu" anchor="before" relative-to-action="$SearchWeb"/>
 			<keyboard-shortcut keymap="$default" first-keystroke="shift meta I"/>
 		</action>
+		<action id="WebSearchFromIde" class="com.wannabe.smartsearch.actions.WebSearchFromIde" text="Web search form IDE">
+			<add-to-group group-id="StructuralSearchActions" anchor="after" relative-to-action="$SearchWeb"/>
+			<keyboard-shortcut keymap="$default" first-keystroke="shift ctrl G"/>
+		</action>
 	</actions>
 
 	<project-components>
