@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin version="3">
 	<id>com.wannabe.smartsearch</id>
 	<name>Smart Search</name>
 	<version>1.0</version>
@@ -13,7 +13,7 @@
     ]]></description>
 
 	<change-notes><![CDATA[
-      None
+      Add web search ide popup
     ]]>
 	</change-notes>
 
