@@ -40,6 +40,10 @@ public class SmartSearch extends AnAction {
 		trimServices.add(PrettyTrimService.INSTANCE);
 	}
 
+	static void doSearch(@NotNull String query) {
+		BrowserUtil.browse(SmartSearchManagerConfigurable.getCurrentPrefix() + URLEncoder.encode(query));
+	}
+
 	@Override
 	public void update(AnActionEvent e) {
 		boolean enabled = e.getData(CommonDataKeys.EDITOR) != null
@@ -56,6 +60,6 @@ public class SmartSearch extends AnAction {
 		}
 		SelectedData selectedDataWrapper = new SelectedData(selectedData);
 		trimServices.stream().forEach(selectedDataWrapper::trim);
-		BrowserUtil.browse(SmartSearchManagerConfigurable.getCurrentPrefix() + URLEncoder.encode(selectedDataWrapper.getData()));
+		doSearch(selectedDataWrapper.getData());
 	}
 }
