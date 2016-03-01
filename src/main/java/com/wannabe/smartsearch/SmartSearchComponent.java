@@ -27,8 +27,8 @@ public class SmartSearchComponent implements ProjectComponent {
 
 	@Override
 	public void projectOpened() {
-		TrimServiceEngine trimServiceEngine = new TrimServiceEngine(project);
 		StartupManager.getInstance(project).runWhenProjectIsInitialized(() -> {
+			TrimServiceEngine trimServiceEngine = new TrimServiceEngine(project);
 			SmartSearch.init(trimServiceEngine);
 			WebSearchFromIde.init(trimServiceEngine);
 		});
