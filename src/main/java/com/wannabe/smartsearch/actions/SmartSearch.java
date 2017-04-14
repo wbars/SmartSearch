@@ -5,7 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.wannabe.smartsearch.settings.SmartSearchManagerConfigurable;
-import com.wannabe.smartsearch.utils.TrimServiceEngine;
+import com.wannabe.smartsearch.utils.TrimService;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URLEncoder;
@@ -15,10 +15,10 @@ import java.net.URLEncoder;
  */
 public class SmartSearch extends AnAction {
 
-    private static TrimServiceEngine trimServiceEngine;
+    private static TrimService trimService;
 
-    public static void init(@NotNull TrimServiceEngine trimServiceEngine) {
-        SmartSearch.trimServiceEngine = trimServiceEngine;
+    public static void init(@NotNull TrimService trimService) {
+        SmartSearch.trimService = trimService;
     }
 
     static void doSearch(@NotNull String query) {
@@ -36,9 +36,7 @@ public class SmartSearch extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         String selectedData = e.getRequiredData(CommonDataKeys.EDITOR).getSelectionModel().getSelectedText();
-        if (selectedData == null || e.getProject() == null) {
-            return;
-        }
-        doSearch(trimServiceEngine.trimData(selectedData));
+        if (selectedData == null || e.getProject() == null) return;
+        doSearch(trimService.trim(selectedData));
     }
 }

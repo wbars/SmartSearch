@@ -7,73 +7,54 @@ import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
-import java.util.concurrent.*;
+import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-/**
- * Created by wannabe on 11.02.16.
- */
+import static java.util.concurrent.Executors.newFixedThreadPool;
+import static java.util.function.Function.identity;
 
-/**
- * Class, that handle some file crawling in project structure. Provide inner method for trimming data using all Java class names in the project.
- */
-public abstract class FileCrawlerTrimService implements DataTrimService {
+abstract class FileCrawlerTrimService implements Function<String, String> {
 
-    public static final Logger logger = Logger.getInstance(FileCrawlerTrimService.class);
-    protected static final ExecutorService executor = Executors.newFixedThreadPool(2);
-    protected Future<Set<String>> names;
+    private static final Logger logger = Logger.getInstance(FileCrawlerTrimService.class);
+    private static final ExecutorService executor = newFixedThreadPool(2);
+    private Future<Collection<String>> names;
 
-    /**
-     * Accept callable, that will search for some names in project (filenames, or classnames for example)
-     * <br />
-     * That callable will be called sometimes in separate thread.
-     * <p>
-     * todo make compilerManager not null, now nullable because of tests
-     */
-    protected FileCrawlerTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
-        names = executor.submit(classNamesGetter);
+    FileCrawlerTrimService(final Supplier<Collection<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
+        names = executor.submit(classNamesGetter::get);
 
-        if (compilerManager != null) {
-            compilerManager.addCompilationStatusListener(new CompilationStatusListener() {
-                @Override
-                public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
-                    names = executor.submit(classNamesGetter);
-                }
-
-                @Override
-                public void fileGenerated(String outputRoot, String relativePath) {
-                    //do nothing
-                }
-            });
-        } else {
+        if (compilerManager == null) {
             logger.warn("Cant register listener for compiler manager: compile manager is null");
+            return;
         }
+        compilerManager.addCompilationStatusListener(new CompilationStatusListener() {
+            @Override
+            public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
+                names = executor.submit(classNamesGetter::get);
+            }
+
+            @Override
+            public void fileGenerated(String outputRoot, String relativePath) {
+                //do nothing
+            }
+        });
+
     }
 
-    /**
-     * This method takes function regexpGetter, that will be applied to every full-qualified classname in the project and will return regexp for every entry.
-     * <br />
-     * Result regexp`s will be removed from input string
-     *
-     * @param data         Input to be trimmed
-     * @param regexpGetter function, that will be applied to every classname
-     * @return trimmed data
-     */
-    protected final String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
-        final String[] wrapper = {data};
+    final String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
         try {
-            names
-                    .get()
-                    .forEach(s -> wrapper[0] = wrapper[0]
-                            .replaceAll(regexpGetter.apply(s), "")
-                    );
+            return names.get().stream()
+                    .map(name -> (Function<String, String>) s -> s.replaceAll(regexpGetter.apply(name), ""))
+                    .reduce((d, d1) -> s -> d.apply(d1.apply(s))).orElse(identity())
+                    .apply(data);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
             names.cancel(true);
-        } catch (ExecutionException e) {
-            //todo
+            Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            return data;
         }
-        return wrapper[0];
+        return data;
     }
 }

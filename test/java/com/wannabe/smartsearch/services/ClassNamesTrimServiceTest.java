@@ -3,19 +3,21 @@ package com.wannabe.smartsearch.services;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.junit.Assert.assertEquals;
+import static java.util.Arrays.asList;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by wannabe on 10.02.16.
  */
 public class ClassNamesTrimServiceTest {
 
-	private DataTrimService classNamesTrimService;
+	private Function<String, String> classNamesTrimService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -24,29 +26,19 @@ public class ClassNamesTrimServiceTest {
 
 	@Test
 	public void testRemoveFaceContent() throws Exception {
-		//given
-		String data1 = "a com.dummy.Class1 bc";
-		String data2 = "a com.dummy.Class2 bc";
-		String data3 = "a com.dummy.Class3 bc";
-		String data4 = "a com.dummy.Class2.method() bc";
-		String data5 = "a com.dummy.Class2.method(args) bc";
-		String data6 = "a com.dummy.Class2.method(App.java:80) bc";
-		//when
-
-		//then
-		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data1));
-		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data2));
-		assertEquals(data3, classNamesTrimService.removeFaceContent(data3));
-		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data4));
-		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data5));
-		assertEquals("a  bc", classNamesTrimService.removeFaceContent(data6));
+		assertThat(classNamesTrimService.apply("a com.dummy.Class1 bc"), is("a  bc"));
+		assertThat(classNamesTrimService.apply("a com.dummy.Class2 bc"), is("a  bc"));
+		assertThat(classNamesTrimService.apply("a com.dummy.Class2.method() bc"), is("a  bc"));
+		assertThat(classNamesTrimService.apply("a com.dummy.Class2.method(args) bc"), is("a  bc"));
+		assertThat(classNamesTrimService.apply("a com.dummy.Class2.method(App.java:80) bc"), is("a  bc"));
+		assertThat(classNamesTrimService.apply("a com.dummy.Class3 bc"), is("a com.dummy.Class3 bc"));
 	}
 
-	public static class GetClassNamesDummy implements Callable<Set<String>> {
+	public static class GetClassNamesDummy implements Supplier<Collection<String>> {
 
 		@Override
-		public Set<String> call() throws Exception {
-			return new HashSet<>(Arrays.asList("com.dummy.Class1", "com.dummy.Class2"));
+		public List<String> get() {
+			return asList("com.dummy.Class1", "com.dummy.Class2");
 		}
 	}
 }

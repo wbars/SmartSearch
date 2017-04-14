@@ -1,21 +1,23 @@
 package com.wannabe.smartsearch.utils;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.FileIndexFacade;
 import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.search.ProjectScopeImpl;
-import com.intellij.psi.search.searches.AllClassesSearch;
 
+import java.util.Collection;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
+import java.util.function.Supplier;
+
+import static com.intellij.openapi.application.ApplicationManager.getApplication;
+import static com.intellij.psi.search.searches.AllClassesSearch.search;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by wannabe on 10.02.16.
  */
-public class GetClassNamesFunction implements Callable<Set<String>> {
+public class GetClassNamesFunction implements Supplier<Collection<String>> {
 
     private final Project project;
 
@@ -24,12 +26,12 @@ public class GetClassNamesFunction implements Callable<Set<String>> {
     }
 
     @Override
-    public Set<String> call() throws Exception {
-        return ApplicationManager.getApplication().runReadAction((Computable<Set<String>>) () ->
-                AllClassesSearch.search(new ProjectScopeImpl(project, FileIndexFacade.getInstance(project)), project)
+    public Set<String> get() {
+        return getApplication().runReadAction((Computable<Set<String>>) () ->
+                search(new ProjectScopeImpl(project, FileIndexFacade.getInstance(project)), project)
                         .findAll()
                         .stream()
                         .map(PsiClass::getQualifiedName)
-                        .collect(Collectors.toSet()));
+                        .collect(toSet()));
     }
 }

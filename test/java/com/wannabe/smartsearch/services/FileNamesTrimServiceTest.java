@@ -3,50 +3,40 @@ package com.wannabe.smartsearch.services;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.junit.Assert.assertEquals;
+import static java.util.Arrays.asList;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by wannabe on 11.02.16.
  */
 public class FileNamesTrimServiceTest {
 
-	private DataTrimService fileNamesTrimService;
+    private Function<String, String> fileNamesTrimService;
 
-	@Before
-	public void setUp() throws Exception {
-		fileNamesTrimService = FileNamesTrimService.newInstance(new GetFileNamesDummy(), null);
-	}
+    @Before
+    public void setUp() throws Exception {
+        fileNamesTrimService = FileNamesTrimService.newInstance(new GetFileNamesDummy(), null);
+    }
 
-	@Test
-	public void testRemoveFaceContent() throws Exception {
-		//given
-		String data1 = "a App.java bc";
-		String data2 = "a Cls.java:12 bc";
-		String data3 = "a com.dummy.Class3 bc";
-		String data4 = "a Cls.php:12 bc";
-		//when
+    @Test
+    public void testRemoveFaceContent() throws Exception {
+        assertThat(fileNamesTrimService.apply("a App.java bc"), is("a  bc"));
+        assertThat(fileNamesTrimService.apply("a Cls.java:12 bc"), is("a  bc"));
+        assertThat(fileNamesTrimService.apply("a Cls.php:12 bc"), is("a  bc"));
+        assertThat(fileNamesTrimService.apply("a com.dummy.Class3 bc"), is("a com.dummy.Class3 bc"));
+    }
 
-		//then
-		assertEquals("a  bc", fileNamesTrimService.removeFaceContent(data1));
-		assertEquals("a  bc", fileNamesTrimService.removeFaceContent(data2));
-		assertEquals(data3, fileNamesTrimService.removeFaceContent(data3));
-		assertEquals("a  bc", fileNamesTrimService.removeFaceContent(data4));
-	}
+    public static class GetFileNamesDummy implements Supplier<Collection<String>> {
 
-	public static class GetFileNamesDummy implements Callable<Set<String>> {
-
-		@Override
-		public Set<String> call() throws Exception {
-			return new HashSet<>(
-				Arrays.asList(
-					"App", "Cls"
-				)
-			);
-		}
-	}
+        @Override
+        public List<String> get() {
+            return asList("App", "Cls");
+        }
+    }
 }

@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.StartupManager;
 import com.wannabe.smartsearch.actions.SmartSearch;
 import com.wannabe.smartsearch.actions.WebSearchFromIde;
-import com.wannabe.smartsearch.utils.TrimServiceEngine;
+import com.wannabe.smartsearch.utils.TrimService;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -28,9 +28,9 @@ public class SmartSearchComponent implements ProjectComponent {
     @Override
     public void projectOpened() {
         StartupManager.getInstance(project).runWhenProjectIsInitialized(() -> {
-            TrimServiceEngine trimServiceEngine = new TrimServiceEngine(project);
-            SmartSearch.init(trimServiceEngine);
-            WebSearchFromIde.init(trimServiceEngine);
+            TrimService trimService = new TrimService(project);
+            SmartSearch.init(trimService);
+            WebSearchFromIde.init(trimService);
         });
     }
 
