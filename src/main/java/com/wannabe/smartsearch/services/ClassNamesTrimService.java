@@ -23,7 +23,7 @@ public class ClassNamesTrimService extends FileCrawlerTrimService {
 
     @Override
     public String apply(@NotNull String data) {
-        return removeFaceContent(data, s -> s + "(\\.\\w+\\(.*\\))?");
+        return removeFaceContent(data, s -> "^" + s + "(\\.\\w+\\(.*\\))?$");
     }
 
 }

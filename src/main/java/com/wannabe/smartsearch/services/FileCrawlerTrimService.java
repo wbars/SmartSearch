@@ -11,10 +11,12 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
+import static java.util.Arrays.stream;
 import static java.util.concurrent.Executors.newFixedThreadPool;
-import static java.util.function.Function.identity;
 
 abstract class FileCrawlerTrimService implements Function<String, String> {
 
@@ -45,10 +47,12 @@ abstract class FileCrawlerTrimService implements Function<String, String> {
 
     final String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
         try {
-            return names.get().stream()
-                    .map(name -> (Function<String, String>) s -> s.replaceAll(regexpGetter.apply(name), ""))
-                    .reduce((d, d1) -> s -> d.apply(d1.apply(s))).orElse(identity())
-                    .apply(data);
+            Predicate<String> remainWord = names.get().stream()
+                    .map(name -> Pattern.compile(regexpGetter.apply(name)).asPredicate())
+                    .reduce(Predicate::or).orElse(s -> false).negate();
+            return stream(data.split("\\s+"))
+                    .filter(remainWord)
+                    .reduce((s, s2) -> s + " " + s2).orElse("");
         } catch (InterruptedException e) {
             names.cancel(true);
             Thread.currentThread().interrupt();

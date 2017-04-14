@@ -26,9 +26,9 @@ public class FileNamesTrimServiceTest {
 
     @Test
     public void testRemoveFaceContent() throws Exception {
-        assertThat(fileNamesTrimService.apply("a App.java bc"), is("a  bc"));
-        assertThat(fileNamesTrimService.apply("a Cls.java:12 bc"), is("a  bc"));
-        assertThat(fileNamesTrimService.apply("a Cls.php:12 bc"), is("a  bc"));
+        assertThat(fileNamesTrimService.apply("a App.java bc"), is("a bc"));
+        assertThat(fileNamesTrimService.apply("a Cls.java:12 bc"), is("a bc"));
+        assertThat(fileNamesTrimService.apply("a Cls.php:12 bc"), is("a bc"));
         assertThat(fileNamesTrimService.apply("a com.dummy.Class3 bc"), is("a com.dummy.Class3 bc"));
     }
 
