@@ -17,19 +17,19 @@ import java.util.stream.Collectors;
  */
 public class GetFilenamesFunction implements Callable<Set<String>> {
 
-	private final Project project;
+    private final Project project;
 
-	public GetFilenamesFunction(Project project) {
-		this.project = project;
-	}
+    public GetFilenamesFunction(Project project) {
+        this.project = project;
+    }
 
-	@Override
-	public Set<String> call() throws Exception {
-		return ApplicationManager.getApplication().runReadAction((Computable<Set<String>>) () ->
-			AllClassesSearch.search(new ProjectScopeImpl(project, FileIndexFacade.getInstance(project)), project)
-				.findAll()
-				.stream()
-				.map(PsiClass::getName)
-				.collect(Collectors.toSet()));
-	}
+    @Override
+    public Set<String> call() throws Exception {
+        return ApplicationManager.getApplication().runReadAction((Computable<Set<String>>) () ->
+                AllClassesSearch.search(new ProjectScopeImpl(project, FileIndexFacade.getInstance(project)), project)
+                        .findAll()
+                        .stream()
+                        .map(PsiClass::getName)
+                        .collect(Collectors.toSet()));
+    }
 }

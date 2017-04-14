@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TableNamesTrimService implements DataTrimService {
 
-	@Override
-	public String removeFaceContent(@NotNull String data) {
-		return "";
-	}
+    @Override
+    public String removeFaceContent(@NotNull String data) {
+        return "";
+    }
 }

@@ -9,9 +9,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SmartSearchConfigurableProvider extends ConfigurableProvider {
 
-	@Nullable
-	@Override
-	public Configurable createConfigurable() {
-		return new SmartSearchManagerConfigurable();
-	}
+    @Nullable
+    @Override
+    public Configurable createConfigurable() {
+        return new SmartSearchManagerConfigurable();
+    }
 }

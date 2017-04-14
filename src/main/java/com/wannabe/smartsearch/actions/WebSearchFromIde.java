@@ -30,11 +30,11 @@ public class WebSearchFromIde extends AnAction {
 		}
 		final Project project = e.getData(PlatformDataKeys.PROJECT);
 		Pair<String, Boolean> request = Messages.showInputDialogWithCheckBox("Do web search",
-			"SmartSearch",
-			"Apply smart search filter",
-			false,
-			true,
-			null, null, null);
+				"SmartSearch",
+				"Apply smart search filter",
+				false,
+				true,
+				null, null, null);
 		String query = request.getFirst();
 
 		if (query == null) {

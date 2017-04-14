@@ -12,16 +12,16 @@ import java.util.concurrent.Callable;
  */
 public class ClassNamesTrimService extends FileCrawlerTrimService {
 
-	private ClassNamesTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
-		super(classNamesGetter, compilerManager);
-	}
+    private ClassNamesTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
+        super(classNamesGetter, compilerManager);
+    }
 
-	public static DataTrimService newInstance(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
-		return new ClassNamesTrimService(classNamesGetter, compilerManager);
-	}
+    public static DataTrimService newInstance(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
+        return new ClassNamesTrimService(classNamesGetter, compilerManager);
+    }
 
-	public String removeFaceContent(@NotNull String data) {
-		return removeFaceContent(data, s -> s + "(\\.\\w+\\(.*\\))?");
-	}
+    public String removeFaceContent(@NotNull String data) {
+        return removeFaceContent(data, s -> s + "(\\.\\w+\\(.*\\))?");
+    }
 
 }

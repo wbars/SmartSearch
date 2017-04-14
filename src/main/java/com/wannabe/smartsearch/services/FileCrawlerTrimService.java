@@ -20,60 +20,60 @@ import java.util.function.Function;
  */
 public abstract class FileCrawlerTrimService implements DataTrimService {
 
-	public static final Logger logger = Logger.getInstance(FileCrawlerTrimService.class);
-	protected static final ExecutorService executor = Executors.newFixedThreadPool(2);
-	protected Future<Set<String>> names;
+    public static final Logger logger = Logger.getInstance(FileCrawlerTrimService.class);
+    protected static final ExecutorService executor = Executors.newFixedThreadPool(2);
+    protected Future<Set<String>> names;
 
-	/**
-	 * Accept callable, that will search for some names in project (filenames, or classnames for example)
-	 * <br />
-	 * That callable will be called sometimes in separate thread.
-	 *
-	 * todo make compilerManager not null, now nullable because of tests
-	 */
-	protected FileCrawlerTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
-		names = executor.submit(classNamesGetter);
+    /**
+     * Accept callable, that will search for some names in project (filenames, or classnames for example)
+     * <br />
+     * That callable will be called sometimes in separate thread.
+     * <p>
+     * todo make compilerManager not null, now nullable because of tests
+     */
+    protected FileCrawlerTrimService(final Callable<Set<String>> classNamesGetter, @Nullable CompilerManager compilerManager) {
+        names = executor.submit(classNamesGetter);
 
-		if (compilerManager != null) {
-			compilerManager.addCompilationStatusListener(new CompilationStatusListener() {
-				@Override
-				public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
-					names = executor.submit(classNamesGetter);
-				}
+        if (compilerManager != null) {
+            compilerManager.addCompilationStatusListener(new CompilationStatusListener() {
+                @Override
+                public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
+                    names = executor.submit(classNamesGetter);
+                }
 
-				@Override
-				public void fileGenerated(String outputRoot, String relativePath) {
-					//do nothing
-				}
-			});
-		} else {
-			logger.warn("Cant register listener for compiler manager: compile manager is null");
-		}
-	}
+                @Override
+                public void fileGenerated(String outputRoot, String relativePath) {
+                    //do nothing
+                }
+            });
+        } else {
+            logger.warn("Cant register listener for compiler manager: compile manager is null");
+        }
+    }
 
-	/**
-	 * This method takes function regexpGetter, that will be applied to every full-qualified classname in the project and will return regexp for every entry.
-	 * <br />
-	 * Result regexp`s will be removed from input string
-	 *
-	 * @param data         Input to be trimmed
-	 * @param regexpGetter function, that will be applied to every classname
-	 * @return trimmed data
-	 */
-	protected final String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
-		final String[] wrapper = {data};
-		try {
-			names
-				.get()
-				.forEach(s -> wrapper[0] = wrapper[0]
-					.replaceAll(regexpGetter.apply(s), "")
-				);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			names.cancel(true);
-		} catch (ExecutionException e) {
-			//todo
-		}
-		return wrapper[0];
-	}
+    /**
+     * This method takes function regexpGetter, that will be applied to every full-qualified classname in the project and will return regexp for every entry.
+     * <br />
+     * Result regexp`s will be removed from input string
+     *
+     * @param data         Input to be trimmed
+     * @param regexpGetter function, that will be applied to every classname
+     * @return trimmed data
+     */
+    protected final String removeFaceContent(@NotNull String data, Function<String, String> regexpGetter) {
+        final String[] wrapper = {data};
+        try {
+            names
+                    .get()
+                    .forEach(s -> wrapper[0] = wrapper[0]
+                            .replaceAll(regexpGetter.apply(s), "")
+                    );
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            names.cancel(true);
+        } catch (ExecutionException e) {
+            //todo
+        }
+        return wrapper[0];
+    }
 }

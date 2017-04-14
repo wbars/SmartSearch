@@ -19,11 +19,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface DataTrimService {
 
-	/**
-	 * This method should remove remove some text (or none) from input
-	 *
-	 * @param data Data to be trimmed
-	 * @return trimmed data
-	 */
-	String removeFaceContent(@NotNull String data);
+    /**
+     * This method should remove remove some text (or none) from input
+     *
+     * @param data Data to be trimmed
+     * @return trimmed data
+     */
+    String removeFaceContent(@NotNull String data);
 }

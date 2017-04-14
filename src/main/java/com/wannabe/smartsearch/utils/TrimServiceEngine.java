@@ -18,26 +18,26 @@ import java.util.LinkedList;
 // Must me initialized only once during app bootstrap and injected as needed. Stateless.
 public final class TrimServiceEngine {
 
-	private final Collection<DataTrimService> trimServices;
+    private final Collection<DataTrimService> trimServices;
 
-	public TrimServiceEngine(@NotNull Project project) {
-		Collection<DataTrimService> trimServices = new LinkedList<>();
-		trimServices.add(ClassNamesTrimService.newInstance(
-			new GetClassNamesFunction(project),
-			CompilerManager.getInstance(project)
-		));
-		trimServices.add(FileNamesTrimService.newInstance(
-			new GetFilenamesFunction(project),
-			CompilerManager.getInstance(project)
-		));
-		trimServices.add(PrettyTrimService.INSTANCE);
-		this.trimServices = trimServices;
+    public TrimServiceEngine(@NotNull Project project) {
+        Collection<DataTrimService> trimServices = new LinkedList<>();
+        trimServices.add(ClassNamesTrimService.newInstance(
+                new GetClassNamesFunction(project),
+                CompilerManager.getInstance(project)
+        ));
+        trimServices.add(FileNamesTrimService.newInstance(
+                new GetFilenamesFunction(project),
+                CompilerManager.getInstance(project)
+        ));
+        trimServices.add(PrettyTrimService.INSTANCE);
+        this.trimServices = trimServices;
 
-	}
+    }
 
-	public final String trimData(@NotNull String input) {
-		SelectedData selectedDataWrapper = new SelectedData(input);
-		trimServices.stream().forEach(selectedDataWrapper::trim);
-		return selectedDataWrapper.getData();
-	}
+    public final String trimData(@NotNull String input) {
+        SelectedData selectedDataWrapper = new SelectedData(input);
+        trimServices.stream().forEach(selectedDataWrapper::trim);
+        return selectedDataWrapper.getData();
+    }
 }
